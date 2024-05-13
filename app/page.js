@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import TriviaApp from "../public/trivia/src/App";
 
@@ -8,9 +7,9 @@ export default function Home() {
   const [index, setIndex] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [cursorVisible, setCursorVisible] = useState(true);
+  const [showTrivia, setShowTrivia] = useState(false); // Om de trivia quiz te tonen/verbergen
 
-  // het woord in laten komen
-  const word = "programming in style";
+  const word = "programmeren in stijl";
 
   useEffect(() => {
     if (index < word.length) {
@@ -24,7 +23,6 @@ export default function Home() {
     }
   }, [index, cursorVisible, word]);
 
-  // pagina langzaam naar boven laten scrollen
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -41,7 +39,6 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Toggle cursor visibility every 500 milliseconds
   useEffect(() => {
     const cursorInterval = setInterval(() => {
       setCursorVisible((prev) => !prev);
@@ -49,6 +46,11 @@ export default function Home() {
 
     return () => clearInterval(cursorInterval);
   }, []);
+
+  // Functie om de trivia quiz te tonen
+  const showTriviaQuiz = () => {
+    setShowTrivia(true);
+  };
 
   return (
     <html>
@@ -110,12 +112,9 @@ export default function Home() {
                 Wat ik prachtig vind aan fotografie, is dat er heel veel
                 techniek achter zit.
                 <br />
-                De foto moet natuurlijk scherp zijn,
-                <br />
-                maar om het scherp te krijgen moet je de techniek van belichting
-                goed vinden en
-                <br />
-                om dat te krijgen moet je veel oefenen.
+                De foto moet natuurlijk scherp zijn, maar om het scherp te
+                krijgen moet je de techniek van belichting goed vinden en om dat
+                te krijgen moet je veel oefenen.
               </p>
 
               <div className="flex items-center justify-center">
@@ -134,20 +133,18 @@ export default function Home() {
             <h1 className="text-center mt-80 text-2xl">Projecten</h1>
           </div>
 
-          {/* vierde div */}
+          {/* Vierde div */}
           <div className="bg-gradient-to-b from-blue-900 to-blue-700 text-white py-60 text-center relative">
             <div className="flex items-center justify-around mb-20">
-              {/* google maps */}
-              <iframe
-                width="600"
-                height="450"
-                style={{ border: 0 }}
-                loading="lazy"
-                allowfullscreen
-                referrerpolicy="no-referrer-when-downgrade"
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyCX3mEoWlp-FEmr2pkgLgBFewNe6RqkF5I&q=Alfa+College,+location+Boumaboulevard`}
-              ></iframe>
+              {/* Trivia Quiz */}
+              {showTrivia && <TriviaApp />}
             </div>
+            <button
+              className="bg-white text-black px-4 py-2 rounded-full"
+              onClick={showTriviaQuiz}
+            >
+              Toon Trivia Quiz
+            </button>
             {scrollY > 200 && (
               <button
                 className="bg-white text-black px-4 py-2 rounded-full"
